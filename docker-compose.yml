@@ -1,0 +1,23 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    container_name: go_server_container
+    ports:
+      - "8080:8080"
+    networks:
+      - test_network
+
+  client:
+    build: ./client
+    container_name: go_client_container
+    depends_on:
+      - server
+    networks:
+      - test_network
+    environment:
+      - SERVER_HOST=go_server_container
+
+networks:
+  test_network:
+    external: true
